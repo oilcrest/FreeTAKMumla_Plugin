@@ -84,7 +84,7 @@ public class mumblePttWidget extends MarkerIconWidget
         toggleIcon(toggled);
         this.sharedPreference = PreferenceManager.getDefaultSharedPreferences(mapView.getContext().getApplicationContext());
         this.mapView = mapView;
-        sd1a.register(mapView.getContext(), sdra);
+        //sd1a.register(mapView.getContext(), sdra);
 
         WindowManager wm = (WindowManager) mapView.getContext().getSystemService(Context.WINDOW_SERVICE);
         display = wm.getDefaultDisplay();
@@ -125,6 +125,7 @@ public class mumblePttWidget extends MarkerIconWidget
         setIcon(icon);
     }
 
+    /*
     private final mumblePttSpeech2Text.SpeechDataListener sd1a = new mumblePttSpeech2Text.SpeechDataListener();
     private final mumblePttSpeech2Text.SpeechDataReceiver sdra = new mumblePttSpeech2Text.SpeechDataReceiver() {
         public void onSpeechDataReceived(Bundle activityInfoBundle) {
@@ -162,7 +163,7 @@ public class mumblePttWidget extends MarkerIconWidget
 
         }
     };
-
+*/
     @Override
     public void onMapWidgetPress(MapWidget mapWidget, MotionEvent event) {
         if (mapWidget == this) {
@@ -239,7 +240,7 @@ public class mumblePttWidget extends MarkerIconWidget
 
                 //mediaRecorder.stop();
                 //mediaRecorder.reset();
-
+/*
                 if (sharedPreference.getBoolean("plugin_mumbleptt_s2t", false)) {
                     // this makes use of an activity that cannot know anything
                     // about ATAK.   This is the same problem as we have with
@@ -251,7 +252,7 @@ public class mumblePttWidget extends MarkerIconWidget
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     ((Activity) mapView.getContext()).startActivityForResult(intent, 0);
                 }
-
+*/
                 //mediaRecorder.reset();
                 //final ParcelFileDescriptor.AutoCloseInputStream reader = new ParcelFileDescriptor.AutoCloseInputStream(readFD);
 
