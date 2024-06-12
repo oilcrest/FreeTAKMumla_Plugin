@@ -14,12 +14,14 @@
         <meta-data android:name="plugin-api" android:value="${atakApiVersion}"/>
         <meta-data android:name="app_desc" android:value="@string/app_desc"/>
 
-
+<!--
         <activity android:name="com.atakmap.android.mumbleptt.mumblePttSpeech2Text"
             android:theme="@style/Theme.Transparent"
             android:exported="true"
             android:configChanges="orientation"
             android:launchMode="singleTop"/>
+
+        -->
 
               <activity android:name="com.atakmap.app.component" 
                   tools:ignore="MissingClass"

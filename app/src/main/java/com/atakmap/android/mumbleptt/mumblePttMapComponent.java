@@ -20,6 +20,7 @@ import com.atakmap.android.dropdown.DropDownMapComponent;
 
 import com.atakmap.android.widgets.RootLayoutWidget;
 
+import com.atakmap.app.preferences.ToolsPreferenceFragment;
 import com.atakmap.coremap.log.Log;
 import com.atakmap.android.mumbleptt.plugin.R;
 import com.atakmap.map.AtakMapView;
@@ -45,16 +46,13 @@ public class mumblePttMapComponent extends DropDownMapComponent {
 
         width = view.getWidth();
 
-        view.addOnMapViewResizedListener(new AtakMapView.OnMapViewResizedListener() {
-            @Override
-            public void onMapViewResized(AtakMapView atakMapView) {
-                Log.d(TAG, "RESIZED");
-                Log.d(TAG, "Width: " + atakMapView.getWidth());
-                if (width < atakMapView.getWidth()) {
-                    widget.setMargins(0, 0, atakMapView.getWidth() - 128, 0);
-                } else {
-                    widget.setMargins(0, 0, atakMapView.getWidth() - 256, 0);
-                }
+        view.addOnMapViewResizedListener(atakMapView -> {
+            Log.d(TAG, "RESIZED");
+            Log.d(TAG, "Width: " + atakMapView.getWidth());
+            if (width < atakMapView.getWidth()) {
+                widget.setMargins(0, 0, atakMapView.getWidth() - 128, 0);
+            } else {
+                widget.setMargins(0, 0, atakMapView.getWidth() - 256, 0);
             }
         });
 
@@ -63,30 +61,36 @@ public class mumblePttMapComponent extends DropDownMapComponent {
         else
             widget.setMargins(0,0,width-256,0);
 
-        view.addOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View view, int i, KeyEvent event) {
-                Log.d(TAG, "i: " + i + " onhKeyEvent: " + event.toString());
-                String hwkey = sharedPreference.getString("plugin_mumbleptt_hwbutton", "999");
-                if (!hwkey.equalsIgnoreCase("999")) {
-                    if (i == KeyEvent.KEYCODE_HEADSETHOOK) {
-                        if (hwkey.equalsIgnoreCase(String.valueOf(i)) && event.getAction() == ACTION_DOWN && event.getRepeatCount() == 0) {
-                            Intent t = new Intent("se.lublin.mumla.action.TALK");
-                            AtakBroadcast.getInstance().sendSystemBroadcast(t);
-                            widget.toggleIcon(((++(widget.toggled)) % 2));
-                            return true;
-                        }
-                    }
-                    if (hwkey.equalsIgnoreCase(String.valueOf(i)) && event.getAction() == ACTION_UP) {
+        view.addOnKeyListener((view1, i, event) -> {
+            Log.d(TAG, "i: " + i + " onhKeyEvent: " + event.toString());
+            String hwkey = sharedPreference.getString("plugin_mumbleptt_hwbutton", "999");
+            if (!hwkey.equalsIgnoreCase("999")) {
+                if (i == KeyEvent.KEYCODE_HEADSETHOOK) {
+                    if (hwkey.equalsIgnoreCase(String.valueOf(i)) && event.getAction() == ACTION_DOWN && event.getRepeatCount() == 0) {
                         Intent t = new Intent("se.lublin.mumla.action.TALK");
                         AtakBroadcast.getInstance().sendSystemBroadcast(t);
                         widget.toggleIcon(((++(widget.toggled)) % 2));
                         return true;
                     }
                 }
-                return false;
+                if (hwkey.equalsIgnoreCase(String.valueOf(i)) && event.getAction() == ACTION_UP) {
+                    Intent t = new Intent("se.lublin.mumla.action.TALK");
+                    AtakBroadcast.getInstance().sendSystemBroadcast(t);
+                    widget.toggleIcon(((++(widget.toggled)) % 2));
+                    return true;
+                }
             }
+            return false;
         });
+
+        ToolsPreferenceFragment.register(
+                new ToolsPreferenceFragment.ToolPreference(
+                        pluginContext.getString(R.string.preferences_title),
+                        pluginContext.getString(R.string.preferences_summary),
+                        pluginContext.getString(R.string.key_mumbleptt_preferences),
+                        pluginContext.getResources().getDrawable(R.drawable.ic_launcher),
+                        new PluginPreferencesFragment(
+                                pluginContext)));
     }
 
     @Override
